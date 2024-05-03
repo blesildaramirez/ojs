@@ -134,6 +134,7 @@ class TemplateManager extends PKPTemplateManager
                 'name' => __('editor.navigation.issues'),
                 'url' => $router->url($request, null, 'manageIssues'),
                 'isCurrent' => $request->getRequestedPage() === 'manageIssues',
+                'icon' => 'Issues'
             ];
             $index = array_search('submissions', array_keys($menu));
             if ($index === false || count($menu) <= $index + 1) {
