@@ -314,6 +314,9 @@ msgstr "Are you sure you don't want this scheduled for publication?"
 msgid "publication.version.details"
 msgstr "Publication details for version {$version}"
 
+msgid "publication.versionStage.label"
+msgstr "Article Stage"
+
 msgid "submission.queries.production"
 msgstr "Production Discussions"
 
