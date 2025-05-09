@@ -124,6 +124,7 @@
 
 	<upgrade minversion="3.4.0.0" maxversion="3.4.9.9">
 		<migration class="APP\migration\upgrade\v3_4_0\I9813_QuickSubmitSubmissionProgressType"/>
+		<migration class="APP\migration\upgrade\v3_5_0\I11241_MissingDecisionConstantsUpdate"/>
 	</upgrade>
 
 	<upgrade minversion="3.1.0.0" maxversion="3.4.9.9">
@@ -171,6 +172,7 @@
 		<migration class="PKP\migration\upgrade\v3_4_0\I7624_StrftimeDeprecation"/>
 		<migration class="PKP\migration\upgrade\v3_5_0\I11238_PrepareDBForStructuredCitations"/>
 		<migration class="APP\migration\upgrade\v3_5_0\I10659_UpdateCrossrefSchema"/>
+		<code function="downloadIPGeoDB" />
 		<note file="docs/release-notes/README-3.5.0" />
 	</upgrade>
 
