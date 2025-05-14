@@ -13,9 +13,7 @@
 			"altText": "PKP Developer Docs"
 		}
 	},
-	"produces": [
-		"application/json"
-	],
+	"produces": ["application/json"],
 	"x-tagGroups": [
 		{
 			"name": "Usage",
@@ -60,7 +58,8 @@
 				"Temporary Files",
 				"Backend",
 				"ORCID",
-				"Emails"
+				"Emails",
+				"Categories"
 			]
 		}
 	],
@@ -212,6 +211,10 @@
 		{
 			"name": "Emails",
 			"description": "Endpoints used to retrieve user emails."
+		},
+		{
+			"name": "Categories",
+			"description": "Endpoints used to manage Context categories."
 		}
 	],
 	"definitions": {
@@ -220,16 +223,16 @@
 			"description": "An institutional affiliation for a contributor.",
 			"properties": {
 				"name": {
-				"type": "string",
-				"description": "Name of the affiliated institution"
+					"type": "string",
+					"description": "Name of the affiliated institution"
 				},
 				"role": {
-				"type": "string",
-				"description": "Role or title of the contributor in the institution"
+					"type": "string",
+					"description": "Role or title of the contributor in the institution"
 				},
 				"country": {
-				"type": "string",
-				"description": "Country of the institution (ISO 3166-1 alpha-2 code)"
+					"type": "string",
+					"description": "Country of the institution (ISO 3166-1 alpha-2 code)"
 				}
 			}
 		},
@@ -318,12 +321,8 @@
 			"type": "object",
 			"description": "A response object that will be returned when there are validation errors for the request parameters. Typically used with forms.",
 			"example": {
-				"name": [
-					"You must provide a name to create a new user."
-				],
-				"roles": [
-					"You must assign the user to one or more roles."
-				]
+				"name": ["You must provide a name to create a new user."],
+				"roles": ["You must assign the user to one or more roles."]
 			}
 		},
 		"Issue": "issue",
@@ -381,21 +380,11 @@
 				},
 				"description": "This email is sent when a discussion is created or replied to in the copyediting stage.",
 				"emailTemplateKey": "DISCUSSION_NOTIFICATION_COPYEDITING",
-				"fromRoleIds": [
-					17,
-					4097,
-					65536
-				],
-				"groupIds": [
-					"copyediting"
-				],
+				"fromRoleIds": [17, 4097, 65536],
+				"groupIds": ["copyediting"],
 				"name": "Discussion (Copyediting)",
 				"supportsTemplates": true,
-				"toRoleIds": [
-					17,
-					4097,
-					65536
-				],
+				"toRoleIds": [17, 4097, 65536],
 				"emailTemplates": [
 					{
 						"_href": "https://example.org/publicknowledge/api/v1/emailTemplates/DISCUSSION_NOTIFICATION_COPYEDITING",
@@ -449,21 +438,11 @@
 				},
 				"description": "This email is sent when a discussion is created or replied to in the copyediting stage.",
 				"emailTemplateKey": "DISCUSSION_NOTIFICATION_COPYEDITING",
-				"fromRoleIds": [
-					17,
-					4097,
-					65536
-				],
-				"groupIds": [
-					"copyediting"
-				],
+				"fromRoleIds": [17, 4097, 65536],
+				"groupIds": ["copyediting"],
 				"name": "Discussion (Copyediting)",
 				"supportsTemplates": true,
-				"toRoleIds": [
-					17,
-					4097,
-					65536
-				]
+				"toRoleIds": [17, 4097, 65536]
 			}
 		},
 		"Publication": "publication",
@@ -728,14 +707,15 @@
 					"description": "Human-readable version string (e.g., Version or Record 2.1)."
 				}
 			}
-		}
+		},
+		"Category": "category",
+		"Affiliation": "Affiliation",
+		"Ror": "Ror"
 	},
 	"paths": {
 		"/submissions": {
 			"get": {
-				"tags": [
-					"Submissions"
-				],
+				"tags": ["Submissions"],
 				"summary": "Get a list of submissions.",
 				"description": "See `/submissions/{submissionId}` for notes about submission properties.",
 				"parameters": [
@@ -828,10 +808,7 @@
 						"required": false,
 						"type": "string",
 						"default": "DESC",
-						"enum": [
-							"ASC",
-							"DESC"
-						]
+						"enum": ["ASC", "DESC"]
 					},
 					{
 						"name": "searchPhrase",
@@ -858,7 +835,7 @@
 						"type": "array",
 						"items": {
 							"type": "integer",
-							"enum": [1,3,4,5]
+							"enum": [1, 3, 4, 5]
 						}
 					},
 					{
@@ -869,7 +846,7 @@
 						"type": "array",
 						"items": {
 							"type": "integer",
-							"enum": [1,3,4,5]
+							"enum": [1, 3, 4, 5]
 						}
 					}
 				],
@@ -902,9 +879,7 @@
 				}
 			},
 			"post": {
-				"tags": [
-					"Submissions"
-				],
+				"tags": ["Submissions"],
 				"summary": "Create a new submission.",
 				"parameters": [
 					{
@@ -935,9 +910,7 @@
 		},
 		"/submissions/{submissionId}": {
 			"get": {
-				"tags": [
-					"Submissions"
-				],
+				"tags": ["Submissions"],
 				"summary": "Get a submission by ID.",
 				"description": "* Unpublished submissions are only returned for assigned participants, editors and admins.\n* `abstract` includes HTML markup.\n* `pages` is usually a `string`. But in some cases it may return an array of arrays. Each array contains two items: the start and end page. Example: `[[25, 31], [45, 62]]`.\n* `submissionProgress` will be > 0 if the submission is incomplete.\n* `stages`, `reviewRounds` and `reviewAssignments` should only be returned for participants assigned to the submission.\n* `reviewAssignments` should only expose user-identifying information for editors and admins.",
 				"parameters": [
@@ -974,9 +947,7 @@
 				}
 			},
 			"put": {
-				"tags": [
-					"Submissions"
-				],
+				"tags": ["Submissions"],
 				"summary": "Edit a submission.",
 				"parameters": [
 					{
@@ -1026,9 +997,7 @@
 				}
 			},
 			"delete": {
-				"tags": [
-					"Submissions"
-				],
+				"tags": ["Submissions"],
 				"summary": "Delete a submission.",
 				"description": "Only journal managers and subeditors can make a request to this endpoint.",
 				"parameters": [
@@ -1067,9 +1036,7 @@
 		},
 		"/submissions/{submissionId}/saveForLater": {
 			"put": {
-				"tags": [
-					"Submissions"
-				],
+				"tags": ["Submissions"],
 				"summary": "Save a submission for later",
 				"description": "Sets the current step of the submission in the submission wizard and sends an email to the submitting author with a link to resume their submission. This API endpoint does not save any data about the submission. Use the regular `PUT` endpoints to save data for submissions, publications, files, and authors.",
 				"parameters": [
@@ -1134,9 +1101,7 @@
 		},
 		"/submissions/{submissionId}/submit": {
 			"put": {
-				"tags": [
-					"Submissions"
-				],
+				"tags": ["Submissions"],
 				"summary": "Submit a submission",
 				"description": "Submits a submission for editorial review. Any automated editorial assignments, comments for the editor, or other submission events will be triggered.",
 				"parameters": [
@@ -1205,26 +1170,26 @@
 				"summary": "Get next available version number for submission",
 				"description": "Retrieve the next available version number for a submission. This helps authors and editors understand what version number will be assigned if they create a new version of a publication. The result considers whether a minor version bump is requested and the selected `versionStage`.",
 				"parameters": [
-				{
-					"name": "submissionId",
-					"in": "path",
-					"required": true,
-					"type": "integer"
-				},
-				{
-					"name": "versionStage",
-					"in": "query",
-					"type": "string",
-					"enum": ["AO", "AM", "SM", "PF", "VoR"],
-					"description": "Enum representing the version stage"
-				},
-				{
-					"name": "versionIsMinor",
-					"in": "query",
-					"type": "boolean",
-					"default": true,
-					"description": "Whether to use a minor version bump"
-				}
+					{
+						"name": "submissionId",
+						"in": "path",
+						"required": true,
+						"type": "integer"
+					},
+					{
+						"name": "versionStage",
+						"in": "query",
+						"type": "string",
+						"enum": ["AO", "AM", "SM", "PF", "VoR"],
+						"description": "Enum representing the version stage"
+					},
+					{
+						"name": "versionIsMinor",
+						"in": "query",
+						"type": "boolean",
+						"default": true,
+						"description": "Whether to use a minor version bump"
+					}
 				],
 				"responses": {
 					"200": {
@@ -1238,9 +1203,7 @@
 		},
 		"/submissions/{submissionId}/decisions": {
 			"get": {
-				"tags": [
-					"Submissions / Decisions"
-				],
+				"tags": ["Submissions / Decisions"],
 				"summary": "Get decisions for a submission.",
 				"description": "Get the editorial decisions that have been recorded for this submission.",
 				"parameters": [
@@ -1314,9 +1277,7 @@
 				}
 			},
 			"post": {
-				"tags": [
-					"Submissions / Decisions"
-				],
+				"tags": ["Submissions / Decisions"],
 				"summary": "Record a decision for a submission.",
 				"description": "Record a new editorial decision for this submission. This endpoint is configured to support customizable actions when recording a decision. Each decision supports pre-defined actions, but plugins can extend each decision to take additional actions or create new decisions.\n\nMost of the built-in decisions use one or more actions. View the \"Request samples\" for this endpoint to see which decisions use which actions. Most decisions use one or more of the following types:\n\n| Action | Description |\n| --- | --- |\n| Email | Details about the email message, recipients and attachments. If the example request body includes an empty `recipients` array, that means the decision does not allow the recipients to be modified. It is configured to always send to the same recipients. For example, most emails to notify authors will automatically be sent to the assigned authors and co-authors, depending on how the journal has configured their email notification settings. |\n| Form | A form payload that includes the action `id` and any input data from the form. |\n\nA custom decision is not restricted to these types. Any data can be sent through the `actions` property and handled on the server. Learn more about [Decisions](https://docs.pkp.sfu.ca/dev/documentation/en/decisions).",
 				"parameters": [
@@ -1371,9 +1332,7 @@
 		},
 		"/submissions/{submissionId}/files": {
 			"get": {
-				"tags": [
-					"Submissions / Files"
-				],
+				"tags": ["Submissions / Files"],
 				"summary": "Get a submission's files.",
 				"description": "This will return all of a submission's files that the user is allowed to access, except review attachments and discussion files. A user is allowed to access different file stages depending on their stage assignment.\n* Managers, subeditors and assistants can access all file stages if they are assigned to the matching workflow stage. For example, an assistant assigned to the copyediting stage can access files in `SUBMISSION_FILE_COPYEDIT` and `SUBMISSION_FILE_FINAL`.\n* Authors are restricted to the `SUBMISSION_FILE_SUBMISSION`, `SUBMISSION_FILE_REVIEW_REVISION`, `SUBMISSION_FILE_COPYEDIT` and `SUBMISSION_FILE_PROOF` file stages. For example, an author with access to the copyediting stage will have access to `SUBMISSION_FILE_COPYEDIT` (copyedited files) but not `SUBMISSION_FILE_FINAL` (draft files).\n* Reviewers and readers are not allowed to access this endpoint.\n* Managers who are not assigned to the submission are allowed to access all file stages as though they are assigned to every workflow stage.",
 				"parameters": [
@@ -1426,9 +1385,7 @@
 				}
 			},
 			"post": {
-				"tags": [
-					"Submissions / Files"
-				],
+				"tags": ["Submissions / Files"],
 				"summary": "Create a new submission file.",
 				"description": "A user is allowed to upload to different file stages depending on their stage assignments. See the description for `GET /submission/{submissionId}/files` above. Once a submission has been completed, authors are no longer allowed to upload to `SUBMISSION_FILE_SUBMISSION`. Authors are not allowed to upload to `SUBMISSION_FILE_REVIEW_REVISION` until revisions have been requested.",
 				"consumes": "multipart/form-data",
@@ -1468,9 +1425,7 @@
 		},
 		"/submissions/{submissionId}/files/{submissionFileId}": {
 			"get": {
-				"tags": [
-					"Submissions / Files"
-				],
+				"tags": ["Submissions / Files"],
 				"summary": "Get a submission file.",
 				"description": "You must pass the correct `stageId` when requesting a file.",
 				"parameters": [
@@ -1514,9 +1469,7 @@
 				}
 			},
 			"put": {
-				"tags": [
-					"Submissions / Files"
-				],
+				"tags": ["Submissions / Files"],
 				"summary": "Edit a submission file.",
 				"description": "You must pass the correct `stageId` when editing a file.",
 				"parameters": [
@@ -1574,9 +1527,7 @@
 				}
 			},
 			"delete": {
-				"tags": [
-					"Submissions / Files"
-				],
+				"tags": ["Submissions / Files"],
 				"summary": "Delete a submission file.",
 				"description": "You must pass the correct `stageId` when deleting a file.",
 				"parameters": [
@@ -1629,9 +1580,7 @@
 		},
 		"/submissions/{submissionId}/files/{submissionFileId}/copy": {
 			"put": {
-				"tags": [
-					"Submissions / Files"
-				],
+				"tags": ["Submissions / Files"],
 				"summary": "Copy a submission file.",
 				"description": "Copy a submission file to a new file stage. This is usually used to promote a file from one stage to another. For example, a file in \"Revisions\" can be promoted to \"Files for Copyediting\" so that a copyeditor can begin working with it. Learn more about [File Stages](https://docs.pkp.sfu.ca/dev/documentation/en/submission-files#file-stages).",
 				"parameters": [
@@ -1708,9 +1657,7 @@
 		},
 		"/submissions/{submissionId}/participants": {
 			"get": {
-				"tags": [
-					"Submissions / Participants"
-				],
+				"tags": ["Submissions / Participants"],
 				"summary": "Get assigned participants.",
 				"description": "Get the participants assigned to a submisssion.",
 				"parameters": [
@@ -1745,9 +1692,7 @@
 		},
 		"/submissions/{submissionId}/participants/{stageId}": {
 			"get": {
-				"tags": [
-					"Submissions / Participants"
-				],
+				"tags": ["Submissions / Participants"],
 				"summary": "Get assigned participants by stage.",
 				"description": "Get all participants assigned to a submission for a specific workflow stage, such as the review or copyediting stage.",
 				"parameters": [
@@ -1789,9 +1734,7 @@
 		},
 		"/submissions/{submissionId}/publications": {
 			"get": {
-				"tags": [
-					"Submissions / Publications"
-				],
+				"tags": ["Submissions / Publications"],
 				"summary": "Get a submission's publications.",
 				"parameters": [
 					{
@@ -1823,9 +1766,7 @@
 				}
 			},
 			"post": {
-				"tags": [
-					"Submissions / Publications"
-				],
+				"tags": ["Submissions / Publications"],
 				"summary": "Create a publication.",
 				"description": "Create a new publication for a submission.",
 				"parameters": [
@@ -1871,9 +1812,7 @@
 		},
 		"/submissions/{submissionId}/publications/{publicationId}": {
 			"get": {
-				"tags": [
-					"Submissions / Publications"
-				],
+				"tags": ["Submissions / Publications"],
 				"summary": "Get a publication.",
 				"parameters": [
 					{
@@ -1909,9 +1848,7 @@
 				}
 			},
 			"put": {
-				"tags": [
-					"Submissions / Publications"
-				],
+				"tags": ["Submissions / Publications"],
 				"summary": "Edit a publication.",
 				"parameters": [
 					{
@@ -1968,9 +1905,7 @@
 				}
 			},
 			"delete": {
-				"tags": [
-					"Submissions / Publications"
-				],
+				"tags": ["Submissions / Publications"],
 				"summary": "Delete a publication.",
 				"description": "Only journal managers and subeditors can make a request to this endpoint.",
 				"parameters": [
@@ -2016,9 +1951,7 @@
 		},
 		"/submissions/{submissionId}/publications/{publicationId}/version": {
 			"post": {
-				"tags": [
-					"Submissions / Publications"
-				],
+				"tags": ["Submissions / Publications"],
 				"summary": "Create a new version of a publication.",
 				"description": "Create a new version of an existing publication. This will clone the current publication and bump its version number. You can optionally specify the `versionStage` (e.g., AO, AM, SM, PF, VoR) and whether this is a minor version update using the `versionIsMinor` boolean flag.",
 				"parameters": [
@@ -2044,16 +1977,16 @@
 						"schema": {
 							"type": "object",
 							"properties": {
-							"versionStage": {
-								"type": "string",
-								"enum": ["AO", "AM", "SM", "PF", "VoR"],
-								"description": "Enum representing the version stage: AO (Author Original), AM (Accepted Manuscript), SM (Submitted Manuscript), PF (Proof), VoR (Version of Record)."
-							},
-							"versionIsMinor": {
-								"type": "boolean",
-								"default": true,
-								"description": "If true, the version bump is minor. Defaults to true."
-							}
+								"versionStage": {
+									"type": "string",
+									"enum": ["AO", "AM", "SM", "PF", "VoR"],
+									"description": "Enum representing the version stage: AO (Author Original), AM (Accepted Manuscript), SM (Submitted Manuscript), PF (Proof), VoR (Version of Record)."
+								},
+								"versionIsMinor": {
+									"type": "boolean",
+									"default": true,
+									"description": "If true, the version bump is minor. Defaults to true."
+								}
 							}
 						}
 					}
@@ -2087,36 +2020,36 @@
 				"summary": "Change publication version",
 				"description": "Change the version number of an existing publication. This endpoint is typically used to promote a publication to a new major or minor version. You can optionally pass a `versionStage` to indicate what version type this is (e.g., Author Original or Version of Record), and whether this is a minor update using `versionIsMinor`.",
 				"parameters": [
-				{
-					"name": "submissionId",
-					"in": "path",
-					"required": true,
-					"type": "integer"
-				},
-				{
-					"name": "publicationId",
-					"in": "path",
-					"required": true,
-					"type": "integer"
-				},
-				{
-					"in": "body",
-					"schema": {
-						"type": "object",
-						"properties": {
-							"versionStage": {
-								"type": "string",
-								"enum": ["AO", "AM", "SM", "PF", "VoR"],
-								"description": "Enum representing the version stage: AO (Author Original), AM (Accepted Manuscript), SM (Submitted Manuscript), PF (Proof), VoR (Version of Record)"
-							},
+					{
+						"name": "submissionId",
+						"in": "path",
+						"required": true,
+						"type": "integer"
+					},
+					{
+						"name": "publicationId",
+						"in": "path",
+						"required": true,
+						"type": "integer"
+					},
+					{
+						"in": "body",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"versionStage": {
+									"type": "string",
+									"enum": ["AO", "AM", "SM", "PF", "VoR"],
+									"description": "Enum representing the version stage: AO (Author Original), AM (Accepted Manuscript), SM (Submitted Manuscript), PF (Proof), VoR (Version of Record)"
+								},
 								"versionIsMinor": {
-								"type": "boolean",
-								"default": true,
-								"description": "If true, the version bump is minor. Defaults to true."
+									"type": "boolean",
+									"default": true,
+									"description": "If true, the version bump is minor. Defaults to true."
+								}
 							}
 						}
 					}
-				}
 				],
 				"responses": {
 					"200": {
@@ -2136,9 +2069,7 @@
 		},
 		"/submissions/{submissionId}/publications/{publicationId}/publish": {
 			"put": {
-				"tags": [
-					"Submissions / Publications"
-				],
+				"tags": ["Submissions / Publications"],
 				"summary": "Publish a publication.",
 				"description": "If the publication is assigned to an issue that is not yet published, it will be scheduled for publication and the `status` will be set to `PKPSubmission::STATUS_SCHEDULED`. If the issue is already published, it will be published immediately and the `status` will be set to `PKPSubmission::STATUS_PUBLISHED`.\n\nThe publication will be validated against any publishing requirements before it is published and a `400` response will be returned if it fails validation.",
 				"parameters": [
@@ -2191,9 +2122,7 @@
 		},
 		"/submissions/{submissionId}/publications/{publicationId}/unpublish": {
 			"put": {
-				"tags": [
-					"Submissions / Publications"
-				],
+				"tags": ["Submissions / Publications"],
 				"summary": "Unpublish a publication.",
 				"parameters": [
 					{
@@ -2238,9 +2167,7 @@
 		},
 		"/submissions/{submissionId}/publications/{publicationId}/contributors": {
 			"get": {
-				"tags": [
-					"Submissions / Publications / Contributors"
-				],
+				"tags": ["Submissions / Publications / Contributors"],
 				"summary": "Get a publication's contributors.",
 				"parameters": [
 					{
@@ -2286,9 +2213,7 @@
 				}
 			},
 			"post": {
-				"tags": [
-					"Submissions / Publications / Contributors"
-				],
+				"tags": ["Submissions / Publications / Contributors"],
 				"summary": "Create a contributor.",
 				"description": "Create a new contributor for a publication.",
 				"parameters": [
@@ -2348,9 +2273,7 @@
 		},
 		"/submissions/{submissionId}/publications/{publicationId}/contributors/{contributorId}": {
 			"get": {
-				"tags": [
-					"Submissions / Publications / Contributors"
-				],
+				"tags": ["Submissions / Publications / Contributors"],
 				"summary": "Get a contributor.",
 				"parameters": [
 					{
@@ -2400,9 +2323,7 @@
 				}
 			},
 			"put": {
-				"tags": [
-					"Submissions / Publications / Contributors"
-				],
+				"tags": ["Submissions / Publications / Contributors"],
 				"summary": "Edit a Contributor.",
 				"parameters": [
 					{
@@ -2466,9 +2387,7 @@
 				}
 			},
 			"delete": {
-				"tags": [
-					"Submissions / Publications / Contributors"
-				],
+				"tags": ["Submissions / Publications / Contributors"],
 				"summary": "Delete a contributor.",
 				"parameters": [
 					{
@@ -2520,9 +2439,7 @@
 		},
 		"/submissions/{submissionId}/publications/{publicationId}/contributors/saveOrder": {
 			"put": {
-				"tags": [
-					"Submissions / Publications / Contributors"
-				],
+				"tags": ["Submissions / Publications / Contributors"],
 				"summary": "Reorder publication's contributors",
 				"description": "Change the order of the contributor's as they are listed in the publication.",
 				"parameters": [
@@ -2586,9 +2503,7 @@
 		},
 		"/issues": {
 			"get": {
-				"tags": [
-					"Issues"
-				],
+				"tags": ["Issues"],
 				"summary": "Get a list of issues.",
 				"description": "Results are eordered by `datePublished`.",
 				"parameters": [
@@ -2614,11 +2529,7 @@
 						"required": false,
 						"type": "string",
 						"default": "datePublished",
-						"enum": [
-							"datePublished",
-							"lastModified",
-							"seq"
-						]
+						"enum": ["datePublished", "lastModified", "seq"]
 					},
 					{
 						"name": "orderDirection",
@@ -2627,10 +2538,7 @@
 						"required": false,
 						"type": "string",
 						"default": "DESC",
-						"enum": [
-							"ASC",
-							"DESC"
-						]
+						"enum": ["ASC", "DESC"]
 					},
 					{
 						"name": "isPublished",
@@ -2691,9 +2599,7 @@
 		},
 		"/issues/current": {
 			"get": {
-				"tags": [
-					"Issues"
-				],
+				"tags": ["Issues"],
 				"summary": "Get the current issue.",
 				"responses": {
 					"200": {
@@ -2715,9 +2621,7 @@
 		},
 		"/issues/{issueId}": {
 			"get": {
-				"tags": [
-					"Issues"
-				],
+				"tags": ["Issues"],
 				"summary": "Get an issue by ID.",
 				"description": "If the issue has a custom section order, the `seq` property of each `SectionSummary` will reflect the sequence for that issue.",
 				"parameters": [
@@ -2749,9 +2653,7 @@
 		},
 		"/users": {
 			"get": {
-				"tags": [
-					"Users"
-				],
+				"tags": ["Users"],
 				"summary": "Get a list of users.",
 				"parameters": [
 					{
@@ -2771,11 +2673,7 @@
 						"required": false,
 						"type": "string",
 						"default": "active",
-						"enum": [
-							"active",
-							"disabled",
-							"all"
-						]
+						"enum": ["active", "disabled", "all"]
 					},
 					{
 						"name": "assignedToSubmission",
@@ -2820,11 +2718,7 @@
 						"required": false,
 						"type": "string",
 						"default": "id",
-						"enum": [
-							"id",
-							"familyName",
-							"givenName"
-						]
+						"enum": ["id", "familyName", "givenName"]
 					},
 					{
 						"name": "orderDirection",
@@ -2833,10 +2727,7 @@
 						"required": false,
 						"type": "string",
 						"default": "DESC",
-						"enum": [
-							"ASC",
-							"DESC"
-						]
+						"enum": ["ASC", "DESC"]
 					},
 					{
 						"name": "searchPhrase",
@@ -2877,9 +2768,7 @@
 		},
 		"/users/{userId}": {
 			"get": {
-				"tags": [
-					"Users"
-				],
+				"tags": ["Users"],
 				"summary": "Get a user by ID.",
 				"parameters": [
 					{
@@ -2903,9 +2792,7 @@
 		},
 		"/users/{userId}/endRole/{userGroupId}": {
 			"put": {
-				"tags": [
-					"Users"
-				],
+				"tags": ["Users"],
 				"summary": "End role access for a given user.",
 				"parameters": [
 					{
@@ -2943,9 +2830,7 @@
 		},
 		"/users/reviewers": {
 			"get": {
-				"tags": [
-					"Users"
-				],
+				"tags": ["Users"],
 				"summary": "Get a list of reviewers.",
 				"parameters": [
 					{
@@ -2955,11 +2840,7 @@
 						"required": false,
 						"type": "string",
 						"default": "active",
-						"enum": [
-							"active",
-							"disabled",
-							"all"
-						]
+						"enum": ["active", "disabled", "all"]
 					},
 					{
 						"name": "reviewerRating",
@@ -3025,11 +2906,7 @@
 						"required": false,
 						"type": "string",
 						"default": "id",
-						"enum": [
-							"id",
-							"familyName",
-							"givenName"
-						]
+						"enum": ["id", "familyName", "givenName"]
 					},
 					{
 						"name": "orderDirection",
@@ -3038,10 +2915,7 @@
 						"required": false,
 						"type": "string",
 						"default": "DESC",
-						"enum": [
-							"ASC",
-							"DESC"
-						]
+						"enum": ["ASC", "DESC"]
 					},
 					{
 						"name": "searchPhrase",
@@ -3082,9 +2956,7 @@
 		},
 		"/contexts": {
 			"get": {
-				"tags": [
-					"Contexts"
-				],
+				"tags": ["Contexts"],
 				"summary": "Get a list of contexts.",
 				"description": "Get an array of the journals (OJS), presses (OMP) or preprint servers (OPS) hosted on this site.",
 				"parameters": [
@@ -3118,7 +2990,7 @@
 						"type": "string"
 					}
 				],
-				"responses":  {
+				"responses": {
 					"200": {
 						"x-summary": "Success",
 						"description": "List of contexts.",
@@ -3146,10 +3018,8 @@
 					}
 				}
 			},
-			"post":  {
-				"tags": [
-					"Contexts"
-				],
+			"post": {
+				"tags": ["Contexts"],
 				"summary": "Create a new context.",
 				"description": "Create a new journal (OJS), press (OMP) or preprint server (OPS).",
 				"parameters": [
@@ -3181,9 +3051,7 @@
 		},
 		"/contexts/{contextId}": {
 			"get": {
-				"tags": [
-					"Contexts"
-				],
+				"tags": ["Contexts"],
 				"summary": "Get a context.",
 				"parameters": [
 					{
@@ -3219,9 +3087,7 @@
 				}
 			},
 			"put": {
-				"tags": [
-					"Contexts"
-				],
+				"tags": ["Contexts"],
 				"summary": "Edit a context.",
 				"description": "Edit a journal (OJS), press (OMP) or preprint server (OPS).",
 				"parameters": [
@@ -3272,9 +3138,7 @@
 				}
 			},
 			"delete": {
-				"tags": [
-					"Contexts"
-				],
+				"tags": ["Contexts"],
 				"summary": "Delete a context.",
 				"description": "Delete a journal (OJS), press (OMP) or preprint server (OPS).",
 				"parameters": [
@@ -3313,9 +3177,7 @@
 		},
 		"/contexts/{contextId}/theme": {
 			"get": {
-				"tags": [
-					"Contexts"
-				],
+				"tags": ["Contexts"],
 				"summary": "Get the active theme.",
 				"description": "Get the active theme and theme options for any journal (OJS), press (OMP) or preprint server (OPS).",
 				"parameters": [
@@ -3352,9 +3214,7 @@
 				}
 			},
 			"put": {
-				"tags": [
-					"Contexts"
-				],
+				"tags": ["Contexts"],
 				"summary": "Edit the active theme.",
 				"description": "Edit the active theme and theme options for any journal (OJS), press (OMP) or preprint server (OPS).",
 				"parameters": [
@@ -3407,11 +3267,9 @@
 		},
 		"/site": {
 			"get": {
-				"tags": [
-					"Site"
-				],
+				"tags": ["Site"],
 				"summary": "Get the site.",
-				"responses":  {
+				"responses": {
 					"200": {
 						"x-summary": "Success",
 						"description": "Site settings.",
@@ -3422,9 +3280,7 @@
 				}
 			},
 			"put": {
-				"tags": [
-					"Site"
-				],
+				"tags": ["Site"],
 				"summary": "Edit the site.",
 				"parameters": [
 					{
@@ -3455,9 +3311,7 @@
 		},
 		"/site/theme": {
 			"get": {
-				"tags": [
-					"Site"
-				],
+				"tags": ["Site"],
 				"summary": "Get the theme.",
 				"description": "Get the active theme and theme options for the site.",
 				"responses": {
@@ -3478,9 +3332,7 @@
 				}
 			},
 			"put": {
-				"tags": [
-					"Site"
-				],
+				"tags": ["Site"],
 				"summary": "Edit the theme.",
 				"description": "Get the active theme and theme options for the site.",
 				"parameters": [
@@ -3512,9 +3364,7 @@
 		},
 		"/announcements": {
 			"get": {
-				"tags": [
-					"Announcements"
-				],
+				"tags": ["Announcements"],
 				"summary": "Get a collection of announcements.",
 				"parameters": [
 					{
@@ -3578,10 +3428,8 @@
 					}
 				}
 			},
-			"post":  {
-				"tags": [
-					"Announcements"
-				],
+			"post": {
+				"tags": ["Announcements"],
 				"summary": "Create a new announcement.",
 				"description": "Create and publish a new announcement in this context.",
 				"parameters": [
@@ -3613,9 +3461,7 @@
 		},
 		"/announcements/{announcementId}": {
 			"get": {
-				"tags":  [
-					"Announcements"
-				],
+				"tags": ["Announcements"],
 				"summary": "Get an announcement.",
 				"parameters": [
 					{
@@ -3651,9 +3497,7 @@
 				}
 			},
 			"put": {
-				"tags": [
-					"Announcements"
-				],
+				"tags": ["Announcements"],
 				"summary": "Edit an announcement.",
 				"description": "Edit an announcement.",
 				"parameters": [
@@ -3704,9 +3548,7 @@
 				}
 			},
 			"delete": {
-				"tags": [
-					"Announcements"
-				],
+				"tags": ["Announcements"],
 				"summary": "Delete an announcement.",
 				"description": "Delete an announcement.",
 				"parameters": [
@@ -3745,9 +3587,7 @@
 		},
 		"/dois": {
 			"get": {
-				"tags": [
-					"DOIs"
-				],
+				"tags": ["DOIs"],
 				"summary": "Get a list of DOIs.",
 				"parameters": [
 					{
@@ -3758,7 +3598,7 @@
 						"type": "array",
 						"items": {
 							"type": "integer",
-							"enum": [1,2,3,4,5]
+							"enum": [1, 2, 3, 4, 5]
 						}
 					},
 					{
@@ -3806,9 +3646,7 @@
 				}
 			},
 			"post": {
-				"tags": [
-					"DOIs"
-				],
+				"tags": ["DOIs"],
 				"summary": "Create a new DOI.",
 				"parameters": [
 					{
@@ -3839,9 +3677,7 @@
 		},
 		"/dois/{doiId}": {
 			"get": {
-				"tags": [
-					"DOIs"
-				],
+				"tags": ["DOIs"],
 				"summary": "Get a DOI by ID.",
 				"parameters": [
 					{
@@ -3877,9 +3713,7 @@
 				}
 			},
 			"put": {
-				"tags": [
-					"DOIs"
-				],
+				"tags": ["DOIs"],
 				"summary": "Edit a DOI.",
 				"description": "Modify the contents of a single DOI. When working with versioned content, if you'd like to modify the content of a DOI for a single version of a publication object, you need to include the `pubObjectType` and `pubObjectId` in the request body.",
 				"parameters": [
@@ -3945,13 +3779,10 @@
 							"$ref": "#/definitions/ErrorResponse"
 						}
 					}
-
 				}
 			},
 			"delete": {
-				"tags": [
-					"DOIs"
-				],
+				"tags": ["DOIs"],
 				"summary": "Delete a DOI.",
 				"description": "Delete a single DOI. When working with versioned content, if you'd like to delete a DOI for a single version of a publication object, you will need to include the `pubObjectType` and the corresponding `pubObjectId` in the request body.",
 				"parameters": [
@@ -4008,9 +3839,7 @@
 		},
 		"/dois/depositAll": {
 			"put": {
-				"tags": [
-					"DOIs"
-				],
+				"tags": ["DOIs"],
 				"summary": "Schedule all DOIs for deposit.",
 				"description": "Schedules all publication objects with DOIs enabled that are published and include DOIs for deposit with the configured registration agency. DOIs will be queued and handled by the Jobs system in the order in which they were added.",
 				"responses": {
@@ -4030,9 +3859,7 @@
 		},
 		"/dois/exports/{fileId}": {
 			"get": {
-				"tags": [
-					"DOIs"
-				],
+				"tags": ["DOIs"],
 				"summary": "Download a DOI export.",
 				"description": "Download a DOI export file that has been compiled. See `/dois/submissions/export` and `/dois/issues/export`.",
 				"parameters": [],
@@ -4053,9 +3880,7 @@
 		},
 		"/dois/submissions/assignDois": {
 			"post": {
-				"tags": [
-					"DOIs / Submissions"
-				],
+				"tags": ["DOIs / Submissions"],
 				"summary": "Assign DOIs to Submissions.",
 				"description": "Assign DOIs to all publication objects of a submission, such as the publication and galleys. This will only assign DOIs to publication objects that have been enabled in the DOI settings.",
 				"parameters": [
@@ -4131,9 +3956,7 @@
 		},
 		"/dois/submissions/export": {
 			"put": {
-				"tags": [
-					"DOIs / Submissions"
-				],
+				"tags": ["DOIs / Submissions"],
 				"summary": "Export Submission DOIs.",
 				"description": "Export submission metadata in a format that can be deposited with the currently configured DOI registration agency. This returns a file id which can be downloaded through the API endpoint `/dois/exports/{fileId}`. See \"Download a DOI Export\" above.",
 				"parameters": [
@@ -4192,9 +4015,7 @@
 		},
 		"/dois/submissions/deposit": {
 			"put": {
-				"tags": [
-					"DOIs / Submissions"
-				],
+				"tags": ["DOIs / Submissions"],
 				"summary": "Deposit Submission DOIs.",
 				"description": "This will deposit the specified submission DOIs with the currently configured DOI registration agency.",
 				"parameters": [
@@ -4245,9 +4066,7 @@
 		},
 		"/dois/submissions/markRegistered": {
 			"put": {
-				"tags": [
-					"DOIs / Submissions"
-				],
+				"tags": ["DOIs / Submissions"],
 				"summary": "Mark Submission DOIs registered.",
 				"description": "This will mark the specified submission DOIs as registered. This can be done to indicate the items were deposited outside of OJS.",
 				"parameters": [
@@ -4312,9 +4131,7 @@
 		},
 		"/dois/submissions/markUnregistered": {
 			"put": {
-				"tags": [
-					"DOIs / Submissions"
-				],
+				"tags": ["DOIs / Submissions"],
 				"summary": "Mark Submission DOIs unregistered.",
 				"description": "This will mark the specified submission DOIs as unregistered. This can be done to remove a DOI's previous registration status.",
 				"parameters": [
@@ -4379,9 +4196,7 @@
 		},
 		"/dois/submissions/markStale": {
 			"put": {
-				"tags": [
-					"DOIs / Submissions"
-				],
+				"tags": ["DOIs / Submissions"],
 				"summary": "Mark Submission DOIs needs sync.",
 				"description": "This will mark the specified submission DOIs as needing to be resubmitted to the registration agency to update their metadata records.",
 				"parameters": [
@@ -4446,9 +4261,7 @@
 		},
 		"/dois/issues/assignDois": {
 			"post": {
-				"tags": [
-					"DOIs / Issues"
-				],
+				"tags": ["DOIs / Issues"],
 				"summary": "Assign DOIs to Issues.",
 				"parameters": [
 					{
@@ -4525,9 +4338,7 @@
 		},
 		"/dois/issues/export": {
 			"put": {
-				"tags": [
-					"DOIs / Issues"
-				],
+				"tags": ["DOIs / Issues"],
 				"summary": "Export Issue DOIs.",
 				"description": "Export issue metadata in a format that can be deposited with the currently configured DOI registration agency. This returns a file id which can be downloaded through the API endpoint `/dois/exports/{fileId}`. See \"Download a DOI Export\" above.",
 				"parameters": [
@@ -4589,9 +4400,7 @@
 		},
 		"/dois/issues/deposit": {
 			"put": {
-				"tags": [
-					"DOIs / Issues"
-				],
+				"tags": ["DOIs / Issues"],
 				"summary": "Deposit Issue DOIs.",
 				"description": "This will deposit the specified issue DOIs with the currently configured DOI registration agency.",
 				"parameters": [
@@ -4642,9 +4451,7 @@
 		},
 		"/dois/issues/markRegistered": {
 			"put": {
-				"tags": [
-					"DOIs / Issues"
-				],
+				"tags": ["DOIs / Issues"],
 				"summary": "Mark Issue DOIs registered.",
 				"description": "This will mark the specified issue DOIs as registered. This can be done to indicate the items were deposited outside of OJS.",
 				"parameters": [
@@ -4708,9 +4515,7 @@
 		},
 		"/dois/issues/markUnregistered": {
 			"put": {
-				"tags": [
-					"DOIs / Issues"
-				],
+				"tags": ["DOIs / Issues"],
 				"summary": "Mark Issue DOIs unregistered.",
 				"description": "This will mark the specified issue DOIs as unregistered. This can be done to remove a DOI's previous registration status.",
 				"parameters": [
@@ -4774,9 +4579,7 @@
 		},
 		"/dois/issues/markStale": {
 			"put": {
-				"tags": [
-					"DOIs / Issues"
-				],
+				"tags": ["DOIs / Issues"],
 				"summary": "Mark Issue DOIs needs sync.",
 				"description": "This will mark the specified issue DOIs as needing to be resubmitted to the registration agency to update their metadata records.",
 				"parameters": [
@@ -4840,9 +4643,7 @@
 		},
 		"/emailTemplates": {
 			"get": {
-				"tags": [
-					"Email Templates"
-				],
+				"tags": ["Email Templates"],
 				"summary": "Get email templates.",
 				"parameters": [
 					{
@@ -4882,7 +4683,7 @@
 						"type": "integer"
 					}
 				],
-				"responses":  {
+				"responses": {
 					"200": {
 						"x-summary": "Success",
 						"description": "List of email templates.",
@@ -4910,10 +4711,8 @@
 					}
 				}
 			},
-			"post":  {
-				"tags": [
-					"Email Templates"
-				],
+			"post": {
+				"tags": ["Email Templates"],
 				"summary": "Create an email template.",
 				"parameters": [
 					{
@@ -4951,9 +4750,7 @@
 		},
 		"/emailTemplates/{key}": {
 			"get": {
-				"tags": [
-					"Email Templates"
-				],
+				"tags": ["Email Templates"],
 				"summary": "Get an email template by key.",
 				"description": "Email templates are fetched by their key, rather than ID, so that a default template is retrieved if it has not been customized. See the [documentation](https://docs.pkp.sfu.ca/dev/documentation/en/email-templates).",
 				"parameters": [
@@ -4990,9 +4787,7 @@
 				}
 			},
 			"put": {
-				"tags": [
-					"Email Templates"
-				],
+				"tags": ["Email Templates"],
 				"summary": "Edit an email template.",
 				"parameters": [
 					{
@@ -5042,9 +4837,7 @@
 				}
 			},
 			"delete": {
-				"tags": [
-					"Email Templates"
-				],
+				"tags": ["Email Templates"],
 				"summary": "Delete an email template.",
 				"description": "Default templates that have not been modified can not be deleted.",
 				"parameters": [
@@ -5083,9 +4876,7 @@
 		},
 		"/emailTemplates/restoreDefaults": {
 			"delete": {
-				"tags": [
-					"Email Templates"
-				],
+				"tags": ["Email Templates"],
 				"summary": "Restore default email templates.",
 				"description": "Delete custom templates and reset all templates to their default settings.",
 				"responses": {
@@ -5111,9 +4902,7 @@
 		},
 		"/emails/authorEmails": {
 			"get": {
-				"tags": [
-					"Emails"
-				],
+				"tags": ["Emails"],
 				"summary": "Gets an Author's email entry logs.",
 				"parameters": [
 					{
@@ -5131,7 +4920,7 @@
 						"type": "integer"
 					}
 				],
-				"responses":  {
+				"responses": {
 					"200": {
 						"x-summary": "Success",
 						"description": "List of emails.",
@@ -5168,9 +4957,7 @@
 		},
 		"/emails/{emailId}": {
 			"get": {
-				"tags": [
-					"Emails"
-				],
+				"tags": ["Emails"],
 				"summary": "Get an email entry log by ID",
 				"parameters": [
 					{
@@ -5208,9 +4995,7 @@
 		},
 		"/institutions": {
 			"get": {
-				"tags": [
-					"Institutions"
-				],
+				"tags": ["Institutions"],
 				"summary": "Get a collection of institutions that have been added to this journal, press or preprint server.",
 				"parameters": [
 					{
@@ -5264,10 +5049,8 @@
 					}
 				}
 			},
-			"post":  {
-				"tags": [
-					"Institutions"
-				],
+			"post": {
+				"tags": ["Institutions"],
 				"summary": "Create a new institution.",
 				"description": "Add an institution to this context.",
 				"parameters": [
@@ -5307,9 +5090,7 @@
 		},
 		"/institutions/{institutionId}": {
 			"get": {
-				"tags":  [
-					"Institutions"
-				],
+				"tags": ["Institutions"],
 				"summary": "Get an institution.",
 				"parameters": [
 					{
@@ -5345,9 +5126,7 @@
 				}
 			},
 			"put": {
-				"tags": [
-					"Institutions"
-				],
+				"tags": ["Institutions"],
 				"summary": "Edit an institution.",
 				"description": "Edit an institution.",
 				"parameters": [
@@ -5399,9 +5178,7 @@
 				}
 			},
 			"delete": {
-				"tags": [
-					"Institutions"
-				],
+				"tags": ["Institutions"],
 				"summary": "Delete an institution.",
 				"description": "Delete an institution.",
 				"parameters": [
@@ -5440,9 +5217,7 @@
 		},
 		"/mailables": {
 			"get": {
-				"tags": [
-					"Mailables"
-				],
+				"tags": ["Mailables"],
 				"summary": "Get all mailables",
 				"description": "Get a list of all Mailable classes configured in the journal. Each mailable class represents an email event, such as a notification to a reviewer.",
 				"parameters": [
@@ -5477,9 +5252,7 @@
 		},
 		"/mailables/{id}": {
 			"get": {
-				"tags": [
-					"Mailables"
-				],
+				"tags": ["Mailables"],
 				"summary": "Get a mailable",
 				"description": "Get a Mailable by its id.",
 				"parameters": [
@@ -5518,9 +5291,7 @@
 		},
 		"/stats/editorial": {
 			"get": {
-				"tags": [
-					"Stats / Editorial"
-				],
+				"tags": ["Stats / Editorial"],
 				"summary": "Get editorial activity stats.",
 				"description": "Returns information about editorial activity such as the number of submissions accepted and declined, the number of days to reach editorial decisions, and the acceptance and rejection rates.",
 				"parameters": [
@@ -5643,9 +5414,7 @@
 		},
 		"/stats/editorial/averages": {
 			"get": {
-				"tags": [
-					"Stats / Editorial"
-				],
+				"tags": ["Stats / Editorial"],
 				"summary": "Get yearly averages of editorial stats.",
 				"description": "Returns yearly averages of editorial activity. To ensure averages are calculated fairly, partial years are not included in the averages. For example, if the first submission was received in October 2017 and the last submission was received in the current calendar year, only submissions from 2018 up until the end of the previous calendar year will be used to calculate the average.",
 				"parameters": [
@@ -5688,9 +5457,7 @@
 		},
 		"/stats/contexts": {
 			"get": {
-				"tags": [
-					"Stats / Contexts"
-				],
+				"tags": ["Stats / Contexts"],
 				"summary": "Get a list of contexts sorted by the number of visits to their homepage.",
 				"description": "Returns a list of journals, presses or preprint servers ordered by the number of visitors to their homepage. Only admins can access this endpoint.",
 				"parameters": [
@@ -5747,10 +5514,7 @@
 						"required": false,
 						"type": "string",
 						"default": "DESC",
-						"enum": [
-							"ASC",
-							"DESC"
-						]
+						"enum": ["ASC", "DESC"]
 					}
 				],
 				"responses": {
@@ -5801,9 +5565,7 @@
 		},
 		"/stats/contexts/timeline": {
 			"get": {
-				"tags": [
-					"Stats / Contexts"
-				],
+				"tags": ["Stats / Contexts"],
 				"summary": "Get visits by day or month.",
 				"description": "Returns a monthly or daily timeline of the number of visitors to the homepage of each journal, press or preprint server. Only admins can access this endpoint.",
 				"parameters": [
@@ -5814,10 +5576,7 @@
 						"required": false,
 						"type": "string",
 						"default": "month",
-						"enum": [
-							"day",
-							"month"
-						]
+						"enum": ["day", "month"]
 					},
 					{
 						"name": "dateStart",
@@ -5891,9 +5650,7 @@
 		},
 		"/stats/contexts/{contextId}": {
 			"get": {
-				"tags": [
-					"Stats / Contexts"
-				],
+				"tags": ["Stats / Contexts"],
 				"summary": "Get the number of views of a context's homepage.",
 				"description": "Returns the number of views of the homepage of a journal, press or preprint server.",
 				"parameters": [
@@ -5963,9 +5720,7 @@
 		},
 		"/stats/contexts/{contextId}/timeline": {
 			"get": {
-				"tags": [
-					"Stats / Contexts"
-				],
+				"tags": ["Stats / Contexts"],
 				"summary": "Get visits to one context by day or month.",
 				"description": "Returns a monthly or daily timeline of visits to the homepage of this context.",
 				"parameters": [
@@ -5983,10 +5738,7 @@
 						"required": false,
 						"type": "string",
 						"default": "month",
-						"enum": [
-							"day",
-							"month"
-						]
+						"enum": ["day", "month"]
 					},
 					{
 						"name": "dateStart",
@@ -6050,9 +5802,7 @@
 		},
 		"/stats/issues": {
 			"get": {
-				"tags": [
-					"Stats / Issues"
-				],
+				"tags": ["Stats / Issues"],
 				"summary": "Get a list of issues ordered by the number of visits it received.",
 				"description": "Returns a list of issues ordered by the total visits it received, based on the number of views of the TOC and the number of downloads of the issue galley.",
 				"parameters": [
@@ -6109,10 +5859,7 @@
 						"required": false,
 						"type": "string",
 						"default": "DESC",
-						"enum": [
-							"ASC",
-							"DESC"
-						]
+						"enum": ["ASC", "DESC"]
 					}
 				],
 				"responses": {
@@ -6155,9 +5902,7 @@
 		},
 		"/stats/issues/timeline": {
 			"get": {
-				"tags": [
-					"Stats / Issues"
-				],
+				"tags": ["Stats / Issues"],
 				"summary": "Get visits by day or month.",
 				"description": "Returns a monthly or daily timeline of an issue's stats.",
 				"parameters": [
@@ -6168,10 +5913,7 @@
 						"required": false,
 						"type": "string",
 						"default": "month",
-						"enum": [
-							"day",
-							"month"
-						]
+						"enum": ["day", "month"]
 					},
 					{
 						"name": "dateStart",
@@ -6210,9 +5952,7 @@
 						"in": "query",
 						"required": false,
 						"type": "string",
-						"enum": [
-							"files"
-						]
+						"enum": ["files"]
 					}
 				],
 				"responses": {
@@ -6255,9 +5995,7 @@
 		},
 		"/stats/issues/{issueId}": {
 			"get": {
-				"tags": [
-					"Stats / Issues"
-				],
+				"tags": ["Stats / Issues"],
 				"summary": "Get the visitor statistics for one issue.",
 				"description": "Returns an issue's view and download statistics broken down by type of request.",
 				"parameters": [
@@ -6327,9 +6065,7 @@
 		},
 		"/stats/issues/{issueId}/timeline": {
 			"get": {
-				"tags": [
-					"Stats / Issues"
-				],
+				"tags": ["Stats / Issues"],
 				"summary": "Get one issue's visits by day or month.",
 				"description": "Returns a monthly or daily timeline of visits to the issue.",
 				"parameters": [
@@ -6347,10 +6083,7 @@
 						"required": false,
 						"type": "string",
 						"default": "month",
-						"enum": [
-							"day",
-							"month"
-						]
+						"enum": ["day", "month"]
 					},
 					{
 						"name": "dateStart",
@@ -6372,9 +6105,7 @@
 						"in": "query",
 						"required": false,
 						"type": "string",
-						"enum": [
-							"files"
-						]
+						"enum": ["files"]
 					}
 				],
 				"responses": {
@@ -6424,9 +6155,7 @@
 		},
 		"/stats/publications": {
 			"get": {
-				"tags": [
-					"Stats / Publications"
-				],
+				"tags": ["Stats / Publications"],
 				"summary": "Get a list of publications ordered by visits.",
 				"description": "Returns a list of publications ordered by the total number of views.",
 				"parameters": [
@@ -6503,10 +6232,7 @@
 						"required": false,
 						"type": "string",
 						"default": "DESC",
-						"enum": [
-							"ASC",
-							"DESC"
-						]
+						"enum": ["ASC", "DESC"]
 					}
 				],
 				"responses": {
@@ -6557,9 +6283,7 @@
 		},
 		"/stats/publications/timeline": {
 			"get": {
-				"tags": [
-					"Stats / Publications"
-				],
+				"tags": ["Stats / Publications"],
 				"summary": "Get visits by day or month.",
 				"description": "Returns a monthly or daily timeline of visits to the publications which match the request parameters.",
 				"parameters": [
@@ -6570,10 +6294,7 @@
 						"required": false,
 						"type": "string",
 						"default": "month",
-						"enum": [
-							"day",
-							"month"
-						]
+						"enum": ["day", "month"]
 					},
 					{
 						"name": "dateStart",
@@ -6632,9 +6353,7 @@
 						"in": "query",
 						"required": false,
 						"type": "string",
-						"enum": [
-							"files"
-						]
+						"enum": ["files"]
 					}
 				],
 				"responses": {
@@ -6677,9 +6396,7 @@
 		},
 		"/stats/publications/{submissionId}": {
 			"get": {
-				"tags": [
-					"Stats / Publications"
-				],
+				"tags": ["Stats / Publications"],
 				"summary": "Get one publication's stats.",
 				"description": "Returns a publication's number of visits and downloads broken down by type.",
 				"parameters": [
@@ -6739,9 +6456,7 @@
 		},
 		"/stats/publications/{submissionId}/timeline": {
 			"get": {
-				"tags": [
-					"Stats / Publications"
-				],
+				"tags": ["Stats / Publications"],
 				"summary": "Get one publication's visits by day or month.",
 				"description": "Returns a monthly or daily timeline of visits to the publication.",
 				"parameters": [
@@ -6759,10 +6474,7 @@
 						"required": false,
 						"type": "string",
 						"default": "month",
-						"enum": [
-							"day",
-							"month"
-						]
+						"enum": ["day", "month"]
 					},
 					{
 						"name": "dateStart",
@@ -6784,9 +6496,7 @@
 						"in": "query",
 						"required": false,
 						"type": "string",
-						"enum": [
-							"files"
-						]
+						"enum": ["files"]
 					}
 				],
 				"responses": {
@@ -6826,9 +6536,7 @@
 		},
 		"/stats/publications/files": {
 			"get": {
-				"tags": [
-					"Stats / Publications"
-				],
+				"tags": ["Stats / Publications"],
 				"summary": "Get a list of published files ordered by downloads.",
 				"description": "Returns a list of published files ordered by their total downloads.",
 				"parameters": [
@@ -6905,10 +6613,7 @@
 						"required": false,
 						"type": "string",
 						"default": "DESC",
-						"enum": [
-							"ASC",
-							"DESC"
-						]
+						"enum": ["ASC", "DESC"]
 					}
 				],
 				"responses": {
@@ -6951,9 +6656,7 @@
 		},
 		"/stats/publications/countries": {
 			"get": {
-				"tags": [
-					"Stats / Publications"
-				],
+				"tags": ["Stats / Publications"],
 				"summary": "Get a list of countries ordered by the number of visits to publications.",
 				"description": "Returns a list of countries ordered by the number of visits to publications from each country. This endpoint is only available when the context has been configured to collect geographical statistics.",
 				"parameters": [
@@ -7030,10 +6733,7 @@
 						"required": false,
 						"type": "string",
 						"default": "DESC",
-						"enum": [
-							"ASC",
-							"DESC"
-						]
+						"enum": ["ASC", "DESC"]
 					}
 				],
 				"responses": {
@@ -7076,9 +6776,7 @@
 		},
 		"/stats/publications/regions": {
 			"get": {
-				"tags": [
-					"Stats / Publications"
-				],
+				"tags": ["Stats / Publications"],
 				"summary": "Get a list of regions ordered by the number of visits to publications.",
 				"description": "Returns a list of regions ordered by the number of visits to publications from each region. This endpoint is only available when the context has been configured to collect regional geographical statistics.",
 				"parameters": [
@@ -7155,10 +6853,7 @@
 						"required": false,
 						"type": "string",
 						"default": "DESC",
-						"enum": [
-							"ASC",
-							"DESC"
-						]
+						"enum": ["ASC", "DESC"]
 					}
 				],
 				"responses": {
@@ -7201,9 +6896,7 @@
 		},
 		"/stats/publications/cities": {
 			"get": {
-				"tags": [
-					"Stats / Publications"
-				],
+				"tags": ["Stats / Publications"],
 				"summary": "Get a list of cities ordered by the number of visits to publications.",
 				"description": "Returns a list of cities ordered by the number of visits to publications from each city. This endpoint is only available when the context has been configured to collect city geographical statistics.",
 				"parameters": [
@@ -7280,10 +6973,7 @@
 						"required": false,
 						"type": "string",
 						"default": "DESC",
-						"enum": [
-							"ASC",
-							"DESC"
-						]
+						"enum": ["ASC", "DESC"]
 					}
 				],
 				"responses": {
@@ -7326,9 +7016,7 @@
 		},
 		"/stats/users": {
 			"get": {
-				"tags": [
-					"Stats / Users"
-				],
+				"tags": ["Stats / Users"],
 				"summary": "Get user statistics.",
 				"description": "Returns a count of the number of registered users by role. The `registeredBefore` and `registeredAfter` params reflect current user roles. A user who registered as an author in January, 2019 but was later appointed to subeditor will be counted as a subeditor when the registration date range includes January, 2019, even though they did not become a subeditor until a later date.",
 				"parameters": [
@@ -7353,11 +7041,7 @@
 						"required": false,
 						"type": "string",
 						"default": "active",
-						"enum": [
-							"active",
-							"disabled",
-							"all"
-						]
+						"enum": ["active", "disabled", "all"]
 					}
 				],
 				"responses": {
@@ -7377,8 +7061,8 @@
 										"type": "string",
 										"description": "A user-facing name for the role."
 									},
-									"value":{
-										"type":  "integer",
+									"value": {
+										"type": "integer",
 										"description": "The number of registered users in this role."
 									}
 								}
@@ -7446,9 +7130,7 @@
 		},
 		"/vocabs": {
 			"get": {
-				"tags": [
-					"Vocabs"
-				],
+				"tags": ["Vocabs"],
 				"summary": "Get controlled vocab entries.",
 				"parameters": [
 					{
@@ -7496,9 +7178,7 @@
 		},
 		"/temporaryFiles": {
 			"options": {
-				"tags": [
-					"Temporary Files"
-				],
+				"tags": ["Temporary Files"],
 				"summary": "Get headers for file uploads.",
 				"description": "Responds with the appopriate headers to indicate file uploads maybe be sent, required by some file upload utilities which send a preflight request.",
 				"responses": {
@@ -7509,9 +7189,7 @@
 				}
 			},
 			"post": {
-				"tags": [
-					"Temporary Files"
-				],
+				"tags": ["Temporary Files"],
 				"summary": "Upload a file.",
 				"description": "Upload a file to the temporary file storage area and receive a temporary file ID.",
 				"parameters": [
@@ -7555,9 +7233,7 @@
 		},
 		"/_payments": {
 			"put": {
-				"tags": [
-					"Backend"
-				],
+				"tags": ["Backend"],
 				"summary": "Save payment settings.",
 				"description": "This endpoint is used on the settings page to save payment plugin settings alongside the general journal settings for enabling payments and setting the currency.",
 				"parameters": [
@@ -7597,9 +7273,7 @@
 		},
 		"/_uploadPublicFile": {
 			"options": {
-				"tags": [
-					"Backend"
-				],
+				"tags": ["Backend"],
 				"summary": "Get headers for file uploads.",
 				"description": "Responds with the appopriate headers to indicate file uploads maybe be sent, required by some file upload utilities which send a preflight request.",
 				"responses": {
@@ -7610,9 +7284,7 @@
 				}
 			},
 			"post": {
-				"tags": [
-					"Backend"
-				],
+				"tags": ["Backend"],
 				"summary": "Upload a file.",
 				"description": "The user's public file directory supports files uploaded through the TinyMCE rich text editor. This is commonly used in context settings but is also available to all registered users through their profile biography.",
 				"parameters": [
@@ -7672,9 +7344,7 @@
 		},
 		"/_submissions": {
 			"get": {
-				"tags": [
-					"Backend"
-				],
+				"tags": ["Backend"],
 				"summary": "Get submissions.",
 				"description": "This endpoint delivers a little bit of extra information about each submission that is used in the submissions list. This private endpoint saves a few extra HTTP requests, but it is more database-intensive for each query.",
 				"parameters": [
@@ -7692,9 +7362,7 @@
 		},
 		"/_submissions/assigned": {
 			"get": {
-				"tags": [
-					"Submissions"
-				],
+				"tags": ["Submissions"],
 				"summary": "Get a list of submissions assigned  to a user",
 				"parameters": [
 					{
@@ -7718,9 +7386,7 @@
 		},
 		"/_submissions/reviews": {
 			"get": {
-				"tags": [
-					"Submissions"
-				],
+				"tags": ["Submissions"],
 				"summary": "Get a list of submissions in a review stage",
 				"parameters": [
 					{
@@ -7776,9 +7442,7 @@
 		},
 		"/_submissions/viewsCount": {
 			"get": {
-				"tags": [
-					"Submissions / DashboardViews"
-				],
+				"tags": ["Submissions / DashboardViews"],
 				"summary": "Get a collection of views count",
 				"description": "This endpoint delivers the count of submissions and review assignments for all views available to the user",
 				"responses": {
@@ -7792,11 +7456,9 @@
 				}
 			}
 		},
-	  	"/contexts/editDoiRegistrationAgencyPlugin" : {
+		"/contexts/editDoiRegistrationAgencyPlugin": {
 			"put": {
-				"tags": [
-					"Backend"
-				],
+				"tags": ["Backend"],
 				"summary": "Edit registration agency plugin settings",
 				"description": "This endpoint is for directly editing DOI registration agency plugin settings. It is used as part of the unified DOI management settings options in the UI.",
 				"parameters": [
@@ -7821,7 +7483,7 @@
 					"200": {
 						"x-summary": "Success",
 						"description": "Details of the DOI registration settings and updated plugin settings.",
-						"schema":{
+						"schema": {
 							"type": "object",
 							"properties": {
 								"enabledRegistrationAgency": {
@@ -7860,9 +7522,7 @@
 		},
 		"/orcid/requestAuthorVerification/{authorId}": {
 			"post": {
-				"tags": [
-					"ORCID"
-				],
+				"tags": ["ORCID"],
 				"summary": "Allows Journal Manager and Editors to send email request to an author to link their ORCID to a submission in OJS.",
 				"parameters": [
 					{
@@ -7897,9 +7557,7 @@
 		},
 		"/orcid/deleteForAuthor/{authorId}": {
 			"delete": {
-				"tags": [
-					"ORCID"
-				],
+				"tags": ["ORCID"],
 				"summary": "Allows Journal Manager and Editors to revoke an author's ORCID and access tokens associated with a submission.",
 				"parameters": [
 					{
@@ -7917,7 +7575,7 @@
 					},
 					"403": {
 						"x-summary": "Request Unauthorized",
-						"description": "You do not have permission to revoke an author's ORCID access and token data or ORCID is not enabled..",
+						"description": "You do not have permission to revoke an author's ORCID access and token data or ORCID is not enabled.",
 						"schema": {
 							"$ref": "#/definitions/ErrorResponse"
 						}
@@ -7925,6 +7583,165 @@
 					"404": {
 						"x-summary": "A resource was not found.",
 						"description": "Could not find author or there are no context.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			}
+		},
+		"/categories": {
+			"get": {
+				"tags": ["Categories"],
+				"summary": "Get a list of categories. Returns top-level categories with their nested sub-categories.",
+				"responses": {
+					"200": {
+						"x-summary": "Success",
+						"description": "List of categories.",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/Category"
+							}
+						}
+					},
+					"403": {
+						"x-summary": "Request Unauthorized",
+						"description": "You do not have permission to get categories.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": ["Categories"],
+				"summary": "Create a new category.",
+				"parameters": [
+					{
+						"description": "Details about the category that should be created.",
+						"in": "body",
+						"schema": {
+							"$ref": "#/definitions/CategoryEditable"
+						}
+					},
+					{
+						"name": "parentCategoryId",
+						"description": "ID of the parent category under which the new category should be created.",
+						"in": "query",
+						"required": false,
+						"type": "integer"
+					}
+				],
+				"responses": {
+					"200": {
+						"x-summary": "Success",
+						"description": "Details of the category that was just added.",
+						"schema": {
+							"$ref": "#/definitions/Category"
+						}
+					},
+					"400": {
+						"x-summary": "Request Invalid",
+						"description": "The values you sent with the request did not pass validation. The response will contain information about which parameters failed validation.",
+						"schema": {
+							"$ref": "#/definitions/InvalidParametersResponse"
+						}
+					},
+					"403": {
+						"x-summary": "Request Unauthorized",
+						"description": "You do not have permission to create categories.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					},
+					"404": {
+						"x-summary": "Resource not found",
+						"description": "There are no categories with ID matching the parentCategoryId param.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			}
+		},
+		"/categories/{categoryId}": {
+			"put": {
+				"tags": ["Categories"],
+				"summary": "Edit category.",
+				"parameters": [
+					{
+						"description": "Details about the category that should edited.",
+						"in": "body",
+						"schema": {
+							"$ref": "#/definitions/CategoryEditable"
+						}
+					},
+					{
+						"description": "Category ID",
+						"name": "categoryId",
+						"in": "path",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"x-summary": "Success",
+						"description": "Details of the category that was just edited.",
+						"schema": {
+							"$ref": "#/definitions/Category"
+						}
+					},
+					"400": {
+						"x-summary": "Request Invalid",
+						"description": "The values you sent with the request did not pass validation. The response will contain information about which parameters failed validation.",
+						"schema": {
+							"$ref": "#/definitions/InvalidParametersResponse"
+						}
+					},
+					"403": {
+						"x-summary": "Request Unauthorized",
+						"description": "You do not have permission to get edit categories.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					},
+					"404": {
+						"x-summary": "Resource not found",
+						"description": "There are no category with ID matching the categoryId path param.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			},
+			"delete": {
+				"tags": ["Categories"],
+				"summary": "Delete a category.",
+				"description": "Delete a category by ID.",
+				"parameters": [
+					{
+						"name": "categoryId",
+						"description": "Category ID",
+						"in": "path",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"x-summary": "Success",
+						"description": "Empty response."
+					},
+					"403": {
+						"x-summary": "Request Unauthorized",
+						"description": "You are not allowed to delete this category.",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					},
+					"404": {
+						"x-summary": "Request Not Found",
+						"description": "The category could not be found.",
 						"schema": {
 							"$ref": "#/definitions/ErrorResponse"
 						}
