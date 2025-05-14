@@ -709,8 +709,38 @@
 			}
 		},
 		"Category": "category",
-		"Affiliation": "Affiliation",
-		"Ror": "Ror"
+		"Ror": "Ror",
+		"VersionStage": {
+			"type": "string",
+			"enum": ["AO", "AM", "SM", "PF", "VoR"],
+			"description": "Enum for version stages: AO (Author Original), AM (Accepted Manuscript), SM (Submitted Manuscript), PF (Proof), VoR (Version of Record)"
+		},
+		"PublicationVersionInfo": {
+			"type": "object",
+			"description": "Information about the next available version for a publication.",
+			"properties": {
+				"versionStage": {
+					"type": "string",
+					"description": "The code of the version stage (e.g., AO, AM, SM, PF, VoR)."
+				},
+				"versionStageLabelKey": {
+					"type": "string",
+					"description": "Translation key for the version stage label."
+				},
+				"majorNumbering": {
+					"type": "integer",
+					"description": "Major version number."
+				},
+				"minorNumbering": {
+					"type": "integer",
+					"description": "Minor version number."
+				},
+				"versionDisplay": {
+					"type": "string",
+					"description": "Human-readable version string (e.g., Version or Record 2.1)."
+				}
+			}
+		}
 	},
 	"paths": {
 		"/submissions": {
@@ -1165,6 +1195,43 @@
 			}
 		},
 		"/submissions/{submissionId}/nextAvailableVersion": {
+			"get": {
+				"tags": ["Submissions"],
+				"summary": "Get next available version number for submission",
+				"description": "Retrieve the next available version number for a submission. This helps authors and editors understand what version number will be assigned if they create a new version of a publication. The result considers whether a minor version bump is requested and the selected `versionStage`.",
+				"parameters": [
+				{
+					"name": "submissionId",
+					"in": "path",
+					"required": true,
+					"type": "integer"
+				},
+				{
+					"name": "versionStage",
+					"in": "query",
+					"type": "string",
+					"enum": ["AO", "AM", "SM", "PF", "VoR"],
+					"description": "Enum representing the version stage"
+				},
+				{
+					"name": "versionIsMinor",
+					"in": "query",
+					"type": "boolean",
+					"default": true,
+					"description": "Whether to use a minor version bump"
+				}
+				],
+				"responses": {
+					"200": {
+						"description": "Next available version info",
+						"schema": {
+							"$ref": "#/definitions/PublicationVersionInfo"
+						}
+					}
+				}
+			}
+		},
+		"/submissions/{submissionId}/decisions": {
 			"get": {
 				"tags": ["Submissions"],
 				"summary": "Get next available version number for submission",
@@ -2020,36 +2087,36 @@
 				"summary": "Change publication version",
 				"description": "Change the version number of an existing publication. This endpoint is typically used to promote a publication to a new major or minor version. You can optionally pass a `versionStage` to indicate what version type this is (e.g., Author Original or Version of Record), and whether this is a minor update using `versionIsMinor`.",
 				"parameters": [
-					{
-						"name": "submissionId",
-						"in": "path",
-						"required": true,
-						"type": "integer"
-					},
-					{
-						"name": "publicationId",
-						"in": "path",
-						"required": true,
-						"type": "integer"
-					},
-					{
-						"in": "body",
-						"schema": {
-							"type": "object",
-							"properties": {
-								"versionStage": {
-									"type": "string",
-									"enum": ["AO", "AM", "SM", "PF", "VoR"],
-									"description": "Enum representing the version stage: AO (Author Original), AM (Accepted Manuscript), SM (Submitted Manuscript), PF (Proof), VoR (Version of Record)"
-								},
-								"versionIsMinor": {
-									"type": "boolean",
-									"default": true,
-									"description": "If true, the version bump is minor. Defaults to true."
-								}
+				{
+					"name": "submissionId",
+					"in": "path",
+					"required": true,
+					"type": "integer"
+				},
+				{
+					"name": "publicationId",
+					"in": "path",
+					"required": true,
+					"type": "integer"
+				},
+				{
+					"in": "body",
+					"schema": {
+						"type": "object",
+						"properties": {
+							"versionStage": {
+								"type": "string",
+								"enum": ["AO", "AM", "SM", "PF", "VoR"],
+								"description": "Enum representing the version stage: AO (Author Original), AM (Accepted Manuscript), SM (Submitted Manuscript), PF (Proof), VoR (Version of Record)"
+							},
+							"versionIsMinor": {
+								"type": "boolean",
+								"default": true,
+								"description": "If true, the version bump is minor. Defaults to true."
 							}
 						}
 					}
+				}
 				],
 				"responses": {
 					"200": {
