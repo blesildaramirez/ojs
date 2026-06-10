@@ -375,6 +375,23 @@
 							},
 							"type": {
 								"type": "integer"
+							},
+							"date": {
+								"type": "string"
+							},
+							"userFullName": {
+								"type": "string"
+							},
+							"userId": {
+								"type": "integer"
+							},
+							"fileId": {
+								"type": "integer",
+								"description": "The submission file id for file activity entries; null otherwise."
+							},
+							"downloadUrl": {
+								"type": "string",
+								"description": "Download URL for file-upload activity entries; null otherwise."
 							}
 						}
 					}
@@ -1009,8 +1026,27 @@
 							"name": {
 								"type": "string"
 							},
-							"reviewMethod": {
-								"type": "int"
+							"reviewMethods": {
+								"type": "array",
+								"description": "Present only for the reviewer role. The reviewer's review method per review round.",
+								"items": {
+									"type": "object",
+									"properties": {
+										"round": {
+											"type": "integer"
+										},
+										"roundLabel": {
+											"type": "string"
+										},
+										"method": {
+											"type": "integer",
+											"description": "One of the SUBMISSION_REVIEW_METHOD_* constants."
+										},
+										"methodLabel": {
+											"type": "string"
+										}
+									}
+								}
 							}
 						}
 					}
